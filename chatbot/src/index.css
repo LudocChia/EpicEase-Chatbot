@@ -1,0 +1,85 @@
+:root {
+  --color-background: rgb(29, 30, 32);
+  --color-text-primary: rgb(159, 153, 153);
+  --color-button-background: rgb(70, 72, 73);
+  --color-message-input-border: rgb(51, 52, 53);
+  --color-message-input-background: rgb(49, 51, 52);
+  --color-text-secondary: rgb(185, 188, 193);
+  --color-text-message: rgb(231, 230, 228);
+}
+
+html.light-theme {
+  --color-background: rgb(244, 240, 240);
+  --color-text-primary: rgb(80, 76, 128);
+  --color-button-background: rgb(233, 225, 225);
+  --color-message-input-border: rgb(222, 211, 211);
+  --color-message-input-background: white;
+  --color-text-secondary: rgb(61, 71, 92);
+  --color-text-message: rgb(40, 38, 64);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-primary) transparent;
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+button,
+i {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  font-size: 16px;
+  font-family: Arial;
+}
+
+body {
+  background-color: var(--color-background);
+  overflow: auto;
+}

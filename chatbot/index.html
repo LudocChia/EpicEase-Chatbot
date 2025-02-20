@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EpicEase Echo</title>
+  <script>
+
+    (function () {
+      const isLightTheme = JSON.parse(localStorage.getItem('isLightTheme') || 'false');
+      if (!isLightTheme) {
+        document.documentElement.style.backgroundColor = 'rgb(29, 30, 32)';
+        document.documentElement.style.color = 'rgb(244, 240, 240)';
+      }
+      document.documentElement.classList.add(isLightTheme ? 'light-theme' : '');
+    })();
+
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

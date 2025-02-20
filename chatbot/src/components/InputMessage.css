@@ -1,0 +1,32 @@
+.chatbot__input {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1.5rem;
+    width: 98%;
+    max-width: 800px;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-message-input-border);
+    background-color: var(--color-message-input-background);
+    border-radius: 0.5rem;
+}
+
+.chatbot__input-field {
+    width: 95%;
+    padding: 0.65rem 0.5rem 0.65rem 1.1rem;
+    resize: none;
+    height: 3rem;
+    overflow: hidden;
+}
+
+.chatbot__input-button {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border-radius: 0.5rem;
+    background-color: var(--color-button-background);
+    right: 0.5rem;
+    bottom: 10px;
+}

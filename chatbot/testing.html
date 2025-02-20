@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Theme Toggle</title>
+    <style>
+        html.light,
+        body.light {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        html.dark,
+        body.dark {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .App {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        (function () {
+            const isDark = JSON.parse(localStorage.getItem("isDark")) ?? false;
+            document.documentElement.classList.add(isDark ? "dark" : "light");
+        })();
+    </script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function App() {
+            // Initialize theme from document class
+            const [isDark, setIsDark] = React.useState(
+                document.documentElement.classList.contains("dark")
+            );
+
+            const toggleTheme = () => {
+                const newIsDark = !isDark;
+                document.documentElement.classList.replace(
+                    newIsDark ? "light" : "dark",
+                    newIsDark ? "dark" : "light"
+                );
+                setIsDark(newIsDark);
+                localStorage.setItem("isDark", JSON.stringify(newIsDark));
+            };
+
+            return (
+                <div className="App">
+                    <h1>{isDark ? "Dark Theme" : "Light Theme"}</h1>
+                    <button onClick={toggleTheme}>Toggle Theme</button>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+
+</html>
