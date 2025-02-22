@@ -1,4 +1,4 @@
-.chatbot__message {
+.chatbot__messages {
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -31,8 +31,42 @@
     max-width: 70%;
 }
 
+/* 代码块容器 */
+.code-block-container {
+    position: relative;
+    margin: 1rem 0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* 代码复制按钮 */
+.code-copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.code-copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 调整语法高亮样式 */
+pre {
+    margin: 0 !important;
+    padding: 1rem !important;
+    background: #282a36 !important;
+}
+
 @media only screen and (max-width: 1200px) {
-    .chatbot__message {
+    .chatbot__messages {
         padding-top: 0;
     }
 }

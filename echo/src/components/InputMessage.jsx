@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './InputMessage.css';
 import createSvgIcon from '../utils/createSvgIcon';
-import { GoogleGenerativeAI } from "@google/generative-ai";  // 引入 Gemini SDK
-
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY); // 读取 API Key
+import { textModel } from '../libs/gemini'; // 使用初始化好的模型
 
 export default function InputMessage({ chatMessages, setChatMessages }) {
     const [inputText, setInputText] = useState('');
@@ -21,32 +19,44 @@ export default function InputMessage({ chatMessages, setChatMessages }) {
     };
 
     const sendMessage = async () => {
-        if (!inputText.trim()) return; // 如果输入为空，直接返回
+        if (!inputText.trim()) return;
 
         const userMessage = {
             message: inputText,
             sender: 'user',
-            key: crypto.randomUUID()
+            key: crypto.randomUUID(),
         };
 
-        setChatMessages(prevMessages => [...prevMessages, userMessage]); // 更新用户消息
+        setChatMessages((prevMessages) => [...prevMessages, userMessage]);
         setLoading(true);
 
         try {
-            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // 选择 Gemini Pro 模型
-            const result = await model.generateContent(inputText);
-            const response = await result.response;
-            const botReply = response.text(); // 获取 AI 响应文本
+            // 定义 System Prompt
+            const systemPrompt = `你是一个幽默的助手，请用轻松愉快的语气回答用户的问题。`;
 
+            // 将历史对话拼接为上下文
+            const context = chatMessages
+                .map((msg) => `${msg.sender}: ${msg.message}`)
+                .join('\n');
+
+            // 将 System Prompt、上下文和用户输入一起传入
+            const prompt = `${systemPrompt}\n${context}\nuser: ${inputText}`;
+
+            // 使用 Gemini 生成回复
+            const result = await textModel.generateContent(prompt);
+            const response = await result.response;
+            const botReply = response.text();
+
+            // 将 Gemini 的回复解析为 Markup（假设 Gemini 返回的是 Markdown 格式）
             const botMessage = {
-                message: botReply,
+                message: botReply, // 这里假设 botReply 是 Markdown 格式
                 sender: 'robot',
-                key: crypto.randomUUID()
+                key: crypto.randomUUID(),
             };
 
-            setChatMessages(prevMessages => [...prevMessages, botMessage]); // 更新 Gemini 响应
+            setChatMessages((prevMessages) => [...prevMessages, botMessage]);
         } catch (error) {
-            console.error("Gemini API 请求失败", error);
+            console.error('Gemini API 请求失败', error);
         }
 
         setLoading(false);
@@ -71,12 +81,12 @@ export default function InputMessage({ chatMessages, setChatMessages }) {
                 >
                     {loading ? '...' : createSvgIcon({
                         paths: [
-                            "M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"
+                            'M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z',
                         ],
                         fill: 'var(--color-text-secondary)',
                         width: '16',
                         height: '16',
-                        viewBox: '0 0 16 16'
+                        viewBox: '0 0 16 16',
                     })}
                 </button>
             </div>
